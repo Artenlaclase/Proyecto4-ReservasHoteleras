@@ -1,7 +1,7 @@
 const Booking = require("../models/model");
 const dayjs = require("dayjs");
 
-let users = [];
+let bookings = [];
 
 exports.createBooking = async (req, res) => {
   const { arrivalDate, departureDate, typeRoom, passengers, nombre, email } =
@@ -10,7 +10,7 @@ exports.createBooking = async (req, res) => {
   const parsedDepartureDate = dayjs(departureDate).format("DD/MM/YYYY");
 
   const newBooking = new Booking(
-    users.length + 1,
+    bookings.length + 1,
     parsedArrivalDate,
     parsedDepartureDate,
     passengers,
@@ -18,8 +18,8 @@ exports.createBooking = async (req, res) => {
     nombre,
     email
   );
-  users.push(newBooking);
-  console.log(users);
+  bookings.push(newBooking);
+  console.log(bookings);
   res.json({
     msg: "Reserva creada con éxito.",
     data: newBooking,
@@ -30,7 +30,7 @@ exports.getBooking = async (req, res) => {
   const { arrivalDate, departureDate, typeRoom } = req.query;
 
   if (typeRoom) {
-    const bookingFiltered = users.filter(
+    const bookingFiltered = bookings.filter(
       (booking) => booking.typeRoom === typeRoom
     );
     if (bookingFiltered.length === 0) {
@@ -43,11 +43,12 @@ exports.getBooking = async (req, res) => {
       msg: "tipo de habitaciones",
       data: bookingFiltered,
     });
+
   } else if (arrivalDate && departureDate) {
     const parsedArrivalDate = dayjs(arrivalDate).format("DD/MM/YYYY");
     const parsedDepartureDate = dayjs(departureDate).format("DD/MM/YYYY");
 
-    const bookingFiltered = users.filter(
+    const bookingFiltered = bookings.filter(
       (booking) =>
         booking.arrivalDate.isBetween(
           parsedArrivalDate,
@@ -64,7 +65,51 @@ exports.getBooking = async (req, res) => {
   } else {
     return res.json({
       msg: "Reservas",
-      data: users,
+      data: bookings,
     });
   }
 };
+
+exports.getBookingById= async (req, res) => {
+  const bookingId = req.params.id;
+  const booking = bookings.find(booking => booking.id === bookingId );
+
+  if (!booking) {
+    return res.status(404).json({ msg: "Reserva no encontrada." })
+  }
+  return res.json({
+    msg: 'Reserva obtenida con éxito.',
+    data: booking
+})
+}
+exports.upDateBookingById = async (req, res) => {
+  const bookingId = req.params.id;
+  const bookingIndex = bookings.findIndex(booking => booking.id === bookingId);
+
+  if (bookingIndex === -1){
+      return res.status(404).json({ msg: "Reserva no encontrada." })
+  }
+
+  bookings[bookingIndex] = { ...bookings[bookingIndex], ...req.body} // spread
+
+  return res.json({
+      msg: 'Reserva modificada con éxito.',
+      data: bookings[bookingIndex]
+  })
+}
+
+exports.deleteBookingById = async (req, res) => {
+  const bookingId = req.params.id;
+  const bookingIndex = bookings.findIndex(booking => booking.id === bookingId);
+
+  if (bookingIndex === -1){
+      return res.status(404).json({ msg: "Reserva no encontrada." })
+  }
+
+ bookings.splice (bookingIndex,1)
+
+  return res.json({
+      msg: 'Reserva eliminada con éxito.',
+  })
+
+}
