@@ -1,5 +1,7 @@
 const Booking = require("../models/model");
 const dayjs = require("dayjs");
+const { v4: uuidv4} = require("uuid");
+
 
 let bookings = [];
 
@@ -10,7 +12,7 @@ exports.createBooking = async (req, res) => {
     // Verificar el contenido de req.body
     console.log("Datos recibidos:", req.body);
 
-    // // Validar que las fechas arrivalDate y departureDate sean válidas.
+    // Validar que las fechas arrivalDate y departureDate sean válidas.
 
     if (!arrivalDate || !departureDate) {
       return res.status(400).json ({
@@ -28,7 +30,7 @@ exports.createBooking = async (req, res) => {
     // Crear la nueva Reserva
 
   const newBooking = new Booking(
-    bookings.length + 1,
+    uuidv4(),
     nameHotel,
     parsedArrivalDate,
     parsedDepartureDate,
@@ -48,48 +50,13 @@ exports.createBooking = async (req, res) => {
 };
 
 exports.getBooking = async (req, res) => {
-  const { arrivalDate, departureDate, typeRoom } = req.query;
-
-  if (typeRoom) {
-    const bookingFiltered = bookings.filter(
-      (booking) => booking.typeRoom === typeRoom
-    );
-    if (bookingFiltered.length === 0) {
-      return res
-        .status(404)
-        .json({ msg: "no se encontraron esas habitaciones " });
-    }
-
-    return res.json({
-      msg: "tipo de habitaciones",
-      data: bookingFiltered,
-    });
-
-  } else if (arrivalDate && departureDate) {
-    const parsedArrivalDate = dayjs(arrivalDate).format("DD/MM/YYYY");
-    const parsedDepartureDate = dayjs(departureDate).format("DD/MM/YYYY");
-
-    const bookingFiltered = bookings.filter(
-      (booking) =>
-        booking.arrivalDate.isBetween(
-          parsedArrivalDate,
-          parsedDepartureDate
-        ) === true
-    );
-    if (usersFiltered.length === 0) {
-      return res.status(404).json({ msg: "No se encontraron usuarios" });
-    }
+  
     return res.json({
       msg: "Reservas",
-      data: bookingFiltered,
+      data: bookings
     });
-  } else {
-    return res.json({
-      msg: "Reservas",
-      data: bookings,
-    });
-  }
-};
+ 
+  };
 
 exports.getBookingById= async (req, res) => {
   const bookingId = req.params.id;
@@ -134,3 +101,49 @@ exports.deleteBookingById = async (req, res) => {
   })
 
 }
+
+// Buesquedas segun distintas peticiones 
+
+exports.getBooking = async (req, res) => {
+  const { arrivalDate, departureDate, typeRoom } = req.query;
+
+  if (typeRoom) {
+    const bookingFiltered = bookings.filter(
+      (booking) => booking.typeRoom === typeRoom
+    );
+    if (bookingFiltered.length === 0) {
+      return res
+        .status(404)
+        .json({ msg: "no se encontraron esas habitaciones " });
+    }
+
+    return res.json({
+      msg: "tipo de habitaciones",
+      data: bookingFiltered,
+    });
+
+  } else if (arrivalDate && departureDate) {
+    const parsedArrivalDate = dayjs(arrivalDate).format("DD/MM/YYYY");
+    const parsedDepartureDate = dayjs(departureDate).format("DD/MM/YYYY");
+
+    const bookingFiltered = bookings.filter(
+      (booking) =>
+        booking.arrivalDate.isBetween(
+          parsedArrivalDate,
+          parsedDepartureDate
+        ) === true
+    );
+    if (usersFiltered.length === 0) {
+      return res.status(404).json({ msg: "No se encontraron usuarios" });
+    }
+    return res.json({
+      msg: "Reservas",
+      data: bookingFiltered,
+    });
+  } else {
+    return res.json({
+      msg: "Reservas",
+      data: bookings,
+    });
+  }
+};
