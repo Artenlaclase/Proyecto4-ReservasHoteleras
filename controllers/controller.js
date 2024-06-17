@@ -4,22 +4,43 @@ const dayjs = require("dayjs");
 let bookings = [];
 
 exports.createBooking = async (req, res) => {
-  const { arrivalDate, departureDate, typeRoom, passengers, nombre, email } =
+  const { nameHotel ,arrivalDate, departureDate, typeRoom, passengers, name, mail, paymentStatus } =
     req.body;
+    
+    // Verificar el contenido de req.body
+    console.log("Datos recibidos:", req.body);
+
+    // // Validar que las fechas arrivalDate y departureDate sean válidas.
+
+    if (!arrivalDate || !departureDate) {
+      return res.status(400).json ({
+        msg: "Faltan fecha de llegada o de salida.",
+      })
+    }
+
   const parsedArrivalDate = dayjs(arrivalDate).format("DD/MM/YYYY");
   const parsedDepartureDate = dayjs(departureDate).format("DD/MM/YYYY");
 
+    // Verificar las fechas convertidas 
+    console.log("Fecha de llegada: ", parsedArrivalDate);
+    console.log("Fecha de Salida: ", parsedDepartureDate);
+
+    // Crear la nueva Reserva
+
   const newBooking = new Booking(
     bookings.length + 1,
+    nameHotel,
     parsedArrivalDate,
     parsedDepartureDate,
     passengers,
     typeRoom,
-    nombre,
-    email
+    name,
+    mail,
+    paymentStatus
   );
   bookings.push(newBooking);
-  console.log(bookings);
+  console.log("Reservas:", bookings);
+
   res.json({
     msg: "Reserva creada con éxito.",
     data: newBooking,

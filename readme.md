@@ -50,23 +50,23 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 ### Operaciones CRUD
 
 - **Crear una reserva**: 
-    - **POST** `/reservas`
+    - **POST** `/booking`
     - Crea una nueva reserva en el sistema.
     
 - **Obtener todas las reservas**: 
-    - **GET** `/reservas`
+    - **GET** `/booking`
     - Recupera una lista de todas las reservas.
     
 - **Obtener una reserva por ID**: 
-    - **GET** `/reservas/:id`
+    - **GET** `/booking/:id`
     - Recupera los detalles de una reserva específica.
     
 - **Actualizar una reserva**: 
-    - **PUT** `/reservas/:id`
+    - **PUT** `/booking/:id`
     - Actualiza los detalles de una reserva existente.
     
 - **Eliminar una reserva**: 
-    - **DELETE** `/reservas/:id`
+    - **DELETE** `/booking/:id`
     - Elimina una reserva del sistema.
 
 ### Operaciones Adicionales con Filtros
@@ -81,7 +81,7 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 
 3. **Filtrar reservas por estado**:
     - **GET** `/reservas?estado=estado_reserva`
-    - Filtra las reservas por su estado (ej. confirmada, cancelada).
+    - Filtra las reservas por su estado (ej. Pagada, Abonada, cancelada).
 
 4. **Filtrar reservas por tipo de habitación**:
     - **GET** `/reservas?tipoHabitacion=tipo_habitacion`
