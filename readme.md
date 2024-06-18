@@ -50,15 +50,15 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 ### Operaciones CRUD
 
 - **Crear una reserva**: 
-    - **POST** `/booking`
+    - **POST** `/api/booking`
     - Crea una nueva reserva en el sistema.
     
 - **Obtener todas las reservas**: 
-    - **GET** `/booking`
+    - **GET** `/api/booking`
     - Recupera una lista de todas las reservas.
     
 - **Obtener una reserva por ID**: 
-    - **GET** `/booking/:id`
+    - **GET** `/api/booking/:id`
     - Recupera los detalles de una reserva específica.
     
 - **Actualizar una reserva**: 
@@ -71,33 +71,34 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 
 ### Operaciones Adicionales con Filtros
 
-1. **Filtrar reservas por fecha**:
-    - **GET** `/reservas?fechaInicio=YYYY-MM-DD&fechaFin=YYYY-MM-DD`
-    - Filtra las reservas dentro de un rango de fechas.
-
-2. **Filtrar reservas por cliente**:
-    - **GET** `/reservas?cliente=nombre_cliente`
-    - Filtra las reservas realizadas por un cliente específico.
-
-3. **Filtrar reservas por estado**:
-    - **GET** `/reservas?estado=estado_reserva`
-    - Filtra las reservas por su estado (ej. Pagada, Abonada, cancelada).
-
-4. **Filtrar reservas por tipo de habitación**:
-    - **GET** `/reservas?tipoHabitacion=tipo_habitacion`
-    - Filtra las reservas por el tipo de habitación reservado.
-
-5. **Buscar reservas por nombre del hotel**:
-    - **GET** `/reservas?hotel=nombre_hotel`
+1. **Buscar reservas por nombre del hotel**:
+    - **GET** `/api/booking?hotel=HOTEL `
     - Filtra las reservas por el nombre del hotel.
 
-6. **Ordenar reservas por fecha de creación**:
-    - **GET** `/reservas?orden=fecha_creacion`
-    - Ordena las reservas por la fecha en que fueron creadas.
+
+2. **Filtrar reservas por fecha**:
+    - **GET** `/api/booking?fecha_inicio=FECHA_INICIO&fecha_fin=FECHA_FIN`
+    - Filtra las reservas dentro de un rango de fechas.
+
+
+3. **Filtrar reservas por tipo de habitación**:
+    - **GET** `/api/booking?tipo_habitacion=TIPO_HABITACION`
+    - Filtra las reservas por el tipo de habitación reservado.
+
+
+4. **Filtrar reservas por estado**:
+    - **GET** `/api/booking?estado=ESTADO`
+    - Filtra las reservas por su estado (ej. Pagada, Abonada, cancelada).
+
+
+5. **Filtrar reservas por número de huespedes**:
+    - **GET** `/api/booking?num_huespedes=NUM_HUESPEDES`
+    - Filtra las reservas realizadas por cantidad de huespedes por reserva.
+
 
 ## Documentación de la API
 
-La documentación detallada de la API, incluyendo ejemplos de solicitudes y respuestas, se puede encontrar en el archivo `API_DOCUMENTATION.md` dentro de este repositorio.
+La documentación detallada de la API, en proceso...(17-06-2024)
 
 ## Contribuciones
 
